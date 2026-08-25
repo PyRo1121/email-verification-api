@@ -33,8 +33,8 @@ export default async function Home() {
           When you enter an email address from a supported mailbox provider, the
           browser interfaces with the mailbox to work out if you are logged in
           and therefore own the email address. A token is then set on a hidden{" "}
-          <code>&lt;input&gt;</code> element. On submission, the server can
-          verify the token and validates the user owns the email address.
+          <code>&lt;input&gt;</code> element. On submission, the server verifies
+          the token and validates the user owns the email address.
         </p>
 
         <p>

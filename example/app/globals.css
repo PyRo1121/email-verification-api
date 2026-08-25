@@ -65,8 +65,8 @@ a:hover {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 4rem 1.5rem;
+  gap: 2rem;
+  padding: 4rem 1.5rem 0;
 }
 
 .page main {
@@ -75,6 +75,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  justify-content: center;
   gap: 1.5rem;
   margin: 0 auto;
 }
@@ -100,6 +101,7 @@ a:hover {
   max-width: 32rem;
   width:100%;
   margin: 0 auto;
+  padding: 1em 0;
 }
 
 .form-wrapper {
