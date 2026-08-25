@@ -76,6 +76,22 @@ export function validateExpectedValues(
   );
   if (!kbTimeResult.ok) return kbTimeResult;
 
+  const evtExpirationResult = validateExpiration(
+    "EVT",
+    token.evt.claims.exp,
+    nowEpochSeconds,
+    inputValues.clockToleranceSeconds,
+  );
+  if (!evtExpirationResult.ok) return evtExpirationResult;
+
+  const kbExpirationResult = validateExpiration(
+    "KB-JWT",
+    token.kb.claims.exp,
+    nowEpochSeconds,
+    inputValues.clockToleranceSeconds,
+  );
+  if (!kbExpirationResult.ok) return kbExpirationResult;
+
   const validatedResult = ExpectedValuesValidatedTokenSchema.safeParse({
     token,
     email: expectedEmail,
@@ -166,6 +182,25 @@ function validateIssuedAt(
       stage: "expected-values",
       code: "TOKEN_NOT_YET_VALID",
       message: `The ${tokenName} issued-at time is later than the allowed clock tolerance.`,
+    });
+  }
+  return ok(undefined);
+}
+
+function validateExpiration(
+  tokenName: "EVT" | "KB-JWT",
+  expiration: number | undefined,
+  nowEpochSeconds: number,
+  clockToleranceSeconds: number,
+): Result<undefined> {
+  if (
+    expiration !== undefined &&
+    nowEpochSeconds - clockToleranceSeconds >= expiration
+  ) {
+    return err({
+      stage: "expected-values",
+      code: "TOKEN_EXPIRED",
+      message: `The ${tokenName} expiration time has passed.`,
     });
   }
   return ok(undefined);

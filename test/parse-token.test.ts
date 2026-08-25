@@ -140,6 +140,13 @@ void describe("parseToken", () => {
         }),
     },
     {
+      name: "rejects a noninteger EVT exp",
+      token: async () =>
+        mutateEvtJson(await tokenFixture(), "payload", (payload) => {
+          payload["exp"] = 1.5;
+        }),
+    },
+    {
       name: "rejects a nonboolean email_verified claim",
       token: async () =>
         mutateEvtJson(await tokenFixture(), "payload", (payload) => {
@@ -190,6 +197,13 @@ void describe("parseToken", () => {
       token: async () =>
         mutateKbJson(await tokenFixture(), "payload", (payload) => {
           payload["aud"] = "not a URL";
+        }),
+    },
+    {
+      name: "rejects a noninteger KB exp",
+      token: async () =>
+        mutateKbJson(await tokenFixture(), "payload", (payload) => {
+          payload["exp"] = 1.5;
         }),
     },
     {

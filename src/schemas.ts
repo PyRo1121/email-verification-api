@@ -82,6 +82,7 @@ const ConfirmationSchema = z.object({ jwk: PublicJwkSchema });
 export const EvtRawClaimsSchema = z.looseObject({
   iss: nonempty,
   iat: epochSeconds,
+  exp: epochSeconds.optional(),
   cnf: ConfirmationSchema,
   email: z.email().optional(),
   email_verified: z.boolean(),
@@ -92,6 +93,7 @@ export const EvtRawClaimsSchema = z.looseObject({
 export const EvtClaimsSchema = z.looseObject({
   iss: nonempty,
   iat: epochSeconds,
+  exp: epochSeconds.optional(),
   cnf: ConfirmationSchema,
   email: z.email(),
   email_verified: z.boolean(),
@@ -106,6 +108,7 @@ export const KbClaimsSchema = z.looseObject({
   aud: z.url(),
   nonce: nonempty,
   iat: epochSeconds,
+  exp: epochSeconds.optional(),
   sd_hash: base64url,
 });
 

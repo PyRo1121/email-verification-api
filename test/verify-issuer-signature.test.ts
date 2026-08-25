@@ -26,7 +26,7 @@ const metadataUrl =
 const jwksUrl = "https://keys.accounts.example.com/email-verification/jwks";
 const secureFetchInit = {
   method: "GET",
-  redirect: "error",
+  redirect: "manual",
   credentials: "omit",
 };
 

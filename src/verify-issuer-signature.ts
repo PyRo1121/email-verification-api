@@ -200,7 +200,7 @@ async function fetchJsonDocument({
   try {
     responseValue = await fetch(url, {
       method: "GET",
-      redirect: "error",
+      redirect: "manual",
       credentials: "omit",
     });
   } catch (cause) {
