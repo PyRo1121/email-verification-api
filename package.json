@@ -1,6 +1,6 @@
 {
   "name": "email-verification-api",
-  "version": "0.1.0",
+  "version": "0.1.1-codeloud.0",
   "description": "Verify Email Verification Protocol EVT+KB tokens",
   "type": "module",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm run build && npm test",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@sd-jwt/core": "^0.20.0",

@@ -66,6 +66,31 @@ function withIssuedAt(
   };
 }
 
+function withExpiration(
+  token: ParsedToken,
+  target: "evt" | "kb",
+  expiration: number,
+): ParsedToken {
+  if (target === "evt") {
+    return {
+      ...token,
+      evt: {
+        ...token.evt,
+        rawClaims: { ...token.evt.rawClaims, exp: expiration },
+        claims: { ...token.evt.claims, exp: expiration },
+      },
+    };
+  }
+
+  return {
+    ...token,
+    kb: {
+      ...token.kb,
+      claims: { ...token.kb.claims, exp: expiration },
+    },
+  };
+}
+
 void describe("validateExpectedValues", () => {
   void it("accepts valid values using the default timing configuration", async () => {
     const fixture = await createParsedToken();
@@ -323,6 +348,37 @@ void describe("validateExpectedValues", () => {
       });
 
       assertErrorCode(result, "TOKEN_NOT_YET_VALID");
+    });
+  }
+
+  for (const target of timestampTargets) {
+    void it(`enforces ${target.toUpperCase()} expiration when present`, async () => {
+      const fixture = await createParsedToken();
+      const insideTolerance = withExpiration(
+        fixture.parsed,
+        target,
+        nowEpochSeconds - 59,
+      );
+      const atExpiredBoundary = withExpiration(
+        fixture.parsed,
+        target,
+        nowEpochSeconds - 60,
+      );
+
+      assert.equal(
+        validateExpectedValues({
+          ...expectedInput(fixture),
+          token: insideTolerance,
+        }).ok,
+        true,
+      );
+      assertErrorCode(
+        validateExpectedValues({
+          ...expectedInput(fixture),
+          token: atExpiredBoundary,
+        }),
+        "TOKEN_EXPIRED",
+      );
     });
   }
 
